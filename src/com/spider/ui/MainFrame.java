@@ -141,7 +141,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 		});
 		
 		textFieldReply = new JTextField();
-		textFieldReply.setBounds(367, 384, 467, 26);
+		textFieldReply.setBounds(377, 384, 457, 26);
 		contentPane.add(textFieldReply);
 		textFieldReply.setColumns(10);
 		
@@ -154,25 +154,25 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 	    scrollPane_1.setViewportView(listSensitiveComment);
 	    
 	    JLabel label_3 = new JLabel("水军评论：");
-	    label_3.setHorizontalAlignment(SwingConstants.CENTER);
-	    label_3.setBounds(297, 384, 60, 26);
+	    label_3.setHorizontalAlignment(SwingConstants.LEFT);
+	    label_3.setBounds(297, 384, 70, 26);
 	    contentPane.add(label_3);
 	    
 	    JLabel label_4 = new JLabel("用户名：");
-	    label_4.setBounds(297, 348, 54, 26);
+	    label_4.setBounds(297, 348, 70, 26);
 	    contentPane.add(label_4);
 	    
 	    textFieldUsername = new JTextField();
-	    textFieldUsername.setBounds(367, 349, 204, 26);
+	    textFieldUsername.setBounds(377, 349, 194, 26);
 	    contentPane.add(textFieldUsername);
 	    textFieldUsername.setColumns(10);
 	    
 	    JLabel label_5 = new JLabel("密码：");
-	    label_5.setBounds(581, 348, 36, 26);
+	    label_5.setBounds(581, 348, 42, 26);
 	    contentPane.add(label_5);
 	    
 	    textFieldPassword = new JTextField();
-	    textFieldPassword.setBounds(620, 348, 207, 26);
+	    textFieldPassword.setBounds(627, 348, 200, 26);
 	    contentPane.add(textFieldPassword);
 	    textFieldPassword.setColumns(10);
 	    
