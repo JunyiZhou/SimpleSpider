@@ -172,7 +172,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 	    contentPane.add(label_5);
 	    
 	    textFieldPassword = new JTextField();
-	    textFieldPassword.setBounds(627, 348, 200, 26);
+	    textFieldPassword.setBounds(627, 348, 207, 26);
 	    contentPane.add(textFieldPassword);
 	    textFieldPassword.setColumns(10);
 	    
