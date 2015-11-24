@@ -23,7 +23,6 @@ public class GetDiscussionRequest extends BaseRequest implements Runnable {
 			String string = "ID：" + discussion.getId() + "\r\n" + "title：" + discussion.getTitle() + "\r\n" + "url："
 					+ discussion.getUrl() + "\r\n";
 			System.out.println(string);
-			StringUtils.saveStringToFile(mSaveFilePath, string);
 			
 			List sqlValues = new ArrayList<>();
 			sqlValues.add(discussion.getId());

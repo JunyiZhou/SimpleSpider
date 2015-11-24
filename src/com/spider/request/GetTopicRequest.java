@@ -31,7 +31,6 @@ public class GetTopicRequest extends BaseRequest implements Runnable {
 					+ topic.getUrl() + "\r\n" + "createTime：" + topic.getCreateDate() + "\r\n" + "commentNum："
 					+ topic.getCommentNum() + "\r\n";
 			System.out.println(string);
-			StringUtils.saveStringToFile(mSaveFilePath, string + "\r\n");
 			
 			List sqlValues = new ArrayList<>();
 			sqlValues.add(topic.getId());

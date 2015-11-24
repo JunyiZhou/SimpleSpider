@@ -28,7 +28,6 @@ public class GetCommentRequest extends BaseRequest implements Runnable {
 					+ "author：" + comment.getAuthor() + "\r\n" + "createTime：" + comment.getCreateDate() + "\r\n"
 					+ "content：" + comment.getContent() + "\r\n";
 			System.out.println(string);
-			StringUtils.saveStringToFile(mSaveFilePath, string + "\r\n");
 			
 			List sqlValues = new ArrayList<>();
 			sqlValues.add(comment.getId());
