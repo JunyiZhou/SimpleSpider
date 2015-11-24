@@ -15,6 +15,7 @@ import com.spider.callback.SetSensitiveCommentListener;
 import com.spider.request.BaseRequest;
 import com.spider.request.GetDiscussionRequest;
 import com.spider.util.DBHelper;
+import com.spider.util.Regular;
 import com.spider.util.RequestManager;
 import com.spider.util.Spider;
 import com.spider.util.StringUtils;
@@ -56,6 +57,8 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 	private String replyTopicId;
 	private JTextField textFieldUsername;
 	private JTextField textFieldPassword;
+	
+	private String sensitiveKey = "图虫";
 	
 	/**
 	 * Launch the application.
@@ -135,6 +138,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 					} else {
 						isStarted = true;
 						requestManager.start();
+						sensitiveKey = textAreaSensitiveKey.getText();
 					}
 				}
 			}
@@ -209,8 +213,10 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 
 	@Override
 	public void setSensitiveComment(Comment comment) {
-		sensitiveCommentList.add(comment);
-		sensitiveCommentListModel.addElement((sensitiveCommentListModel.size() + 1) + "." + comment.getContent());
-		listSensitiveComment.setModel(sensitiveCommentListModel);
+		if (Regular.checkKeyInComment("图虫", comment.getContent())) {
+			sensitiveCommentList.add(comment);
+			sensitiveCommentListModel.addElement((sensitiveCommentListModel.size() + 1) + "." + comment.getContent());
+			listSensitiveComment.setModel(sensitiveCommentListModel);
+		}
 	}
 }

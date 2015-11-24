@@ -81,4 +81,12 @@ public class Regular {
 		return result;
 	}
 
+	public static boolean checkKeyInComment(String key, String comment) {
+		Pattern p = Pattern.compile(key);
+		Matcher m = p.matcher(comment);
+		while (m.find()) {
+			return true;
+		}
+		return false;
+	}
 }
