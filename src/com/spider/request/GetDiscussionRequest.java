@@ -1,17 +1,15 @@
 package com.spider.request;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.spider.bean.Discussion;
-import com.spider.callback.AddRequestListener;
 import com.spider.util.StringUtils;
 
 public class GetDiscussionRequest extends BaseRequest implements Runnable {
 	
-	public GetDiscussionRequest(String url, String saveFilePath) {
-		super(url, saveFilePath);
+	public GetDiscussionRequest(String url) {
+		super(url);
 	}
 
 	@Override
@@ -30,8 +28,8 @@ public class GetDiscussionRequest extends BaseRequest implements Runnable {
 			sqlValues.add(discussion.getUrl());
 			mDBHelper.setSql(StringUtils.SQL_FOR_INSERT_DISCUSSION);
 			mDBHelper.setSqlValues(sqlValues);
-			System.out.println(mDBHelper.executeUpdate());
-			GetTopicRequest getTopicRequest = new GetTopicRequest(discussion.getUrl(), "", "data//" + discussion.getTitle() + ".txt", discussion.getId());
+			mDBHelper.executeUpdate();
+			GetTopicRequest getTopicRequest = new GetTopicRequest(discussion.getUrl(), "", discussion.getId());
 			if (mAddRequestListener != null) {
 				mAddRequestListener.add(getTopicRequest);
 			}

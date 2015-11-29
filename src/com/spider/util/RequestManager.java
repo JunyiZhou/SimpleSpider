@@ -10,19 +10,21 @@ public class RequestManager extends Thread implements AddRequestListener {
 	private static final int MAX_REQUEST_NUM = 5;
 	private static final long MAX_FREE_TIME = 30 * 1000;
 	private static final long REQUEST_PAUSE_TIME = 1000;
-	
+
 	private static int currentNum = 0;
-	
+
 	private long freeTimeStart, freeTimeEnd;
+
+	private long runningTimeStart, runningTimeEnd;
 
 	private Queue<Runnable> requsetQueue = new LinkedBlockingQueue<Runnable>();
 
 	private SetMessageListener mSetMessageListener;
-	
+
 	public void setSetMessageListener(SetMessageListener setMessageListener) {
 		mSetMessageListener = setMessageListener;
 	}
-	
+
 	public void addRequest(Runnable request) {
 		requsetQueue.add(request);
 	}
@@ -31,22 +33,19 @@ public class RequestManager extends Thread implements AddRequestListener {
 		try {
 			sleep(REQUEST_PAUSE_TIME);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	public void showManagerMessage() {
 		if (mSetMessageListener != null) {
-			mSetMessageListener.setMessage("当前请求队列中有" + requsetQueue.size() + "个请求" + "\n" + "正在执行第" + currentNum + "个请求" + "\n");
+			mSetMessageListener.setMessage("当前请求队列中有" + requsetQueue.size() + "个请求" + "\n" + "正在执行第" + currentNum
+					+ "个请求" + "\n" + "当前运行时间为" + (runningTimeEnd - runningTimeStart) / 1000 + "秒" + "\n" + "\n");
 		}
-//		System.out.println("当前请求队列中有" + requsetQueue.size() + "个请求");
-//		System.out.println("正在执行第" + currentNum + "个请求");
 	}
-	
+
 	@Override
 	public void add(Runnable request) {
-		// TODO Auto-generated method stub
 		addRequest(request);
 	}
 
@@ -54,13 +53,16 @@ public class RequestManager extends Thread implements AddRequestListener {
 	public void run() {
 		super.run();
 		freeTimeStart = System.currentTimeMillis();
-		freeTimeEnd = System.currentTimeMillis();
+		freeTimeEnd = freeTimeStart;
+		runningTimeStart = freeTimeStart;
+		runningTimeEnd = freeTimeStart;
 		while (freeTimeEnd - freeTimeStart < MAX_FREE_TIME) {
 			freeTimeEnd = System.currentTimeMillis();
 			if (requsetQueue.size() > MAX_REQUEST_NUM) {
-				for (int i = 0; i < 5; i ++) {
+				for (int i = 0; i < 5; i++) {
 					requsetQueue.poll().run();
 					currentNum++;
+					runningTimeEnd = System.currentTimeMillis();
 					showManagerMessage();
 				}
 				freeTimeStart = System.currentTimeMillis();
@@ -68,6 +70,7 @@ public class RequestManager extends Thread implements AddRequestListener {
 				for (int i = 0; i < requsetQueue.size(); i++) {
 					requsetQueue.poll().run();
 					currentNum++;
+					runningTimeEnd = System.currentTimeMillis();
 					showManagerMessage();
 				}
 				freeTimeStart = System.currentTimeMillis();

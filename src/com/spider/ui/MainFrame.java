@@ -126,7 +126,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 		requestManager.setSetMessageListener(MainFrame.this);
 		BaseRequest.setAddRequestListener(requestManager);
 		BaseRequest.setSetSensitiveCommentListener(MainFrame.this);
-		GetDiscussionRequest getDiscussionRequest = new GetDiscussionRequest(StringUtils.URL_DISCUSSION, "data//讨论区.txt");
+		GetDiscussionRequest getDiscussionRequest = new GetDiscussionRequest(StringUtils.URL_DISCUSSION);
 		requestManager.add(getDiscussionRequest);
 		
 		btnStartSpider.addActionListener(new ActionListener() {
@@ -138,6 +138,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 					} else {
 						isStarted = true;
 						requestManager.start();
+						btnStartSpider.setText("Stop");
 						sensitiveKey = textAreaSensitiveKey.getText();
 					}
 				}
@@ -213,7 +214,7 @@ public class MainFrame extends JFrame implements SetMessageListener, SetSensitiv
 
 	@Override
 	public void setSensitiveComment(Comment comment) {
-		if (Regular.checkKeyInComment("图虫", comment.getContent())) {
+		if (Regular.checkKeyInComment(sensitiveKey, comment.getContent())) {
 			sensitiveCommentList.add(comment);
 			sensitiveCommentListModel.addElement((sensitiveCommentListModel.size() + 1) + "." + comment.getContent());
 			listSensitiveComment.setModel(sensitiveCommentListModel);

@@ -12,15 +12,13 @@ public abstract class BaseRequest implements Runnable {
 	protected static AddRequestListener mAddRequestListener;
 	protected static SetSensitiveCommentListener mSensitiveCommentListener;
 	
-	protected String mSaveFilePath;
 	protected String mUrl;
 	protected Spider mSpider;
 	protected Regular mRegular;
 	protected DBHelper mDBHelper;
 	
-	public BaseRequest(String url, String saveFilePath) {
+	public BaseRequest(String url) {
 		mUrl = url;
-		mSaveFilePath = saveFilePath;
 		mSpider = new Spider();
 		mRegular = new Regular();
 		mDBHelper = new DBHelper();
@@ -42,7 +40,6 @@ public abstract class BaseRequest implements Runnable {
 				onSuccess(htmlString);
 			}
 		} catch (IllegalStateException | IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

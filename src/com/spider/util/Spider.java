@@ -63,8 +63,8 @@ public class Spider {
 	
 	public String getHtmlStringFromWeb(String url) throws IllegalStateException, IOException {
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpHost proxy = new HttpHost("60.15.56.67", 3128);
-		httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+//		HttpHost proxy = new HttpHost("60.11.11.163", 3128);
+//		httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
 		
         HttpGet httpGet = new HttpGet(url);
         HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -74,11 +74,11 @@ public class Spider {
         InputStream htmlInputStream = null;
         
         if(httpEntity != null){
-//            System.out.println("获取html成功");
+            System.out.println("获取html成功");
             htmlInputStream = httpEntity.getContent();
             
             htmlString = StringUtils.InputStreamToString(htmlInputStream, "UTF-8");
-//            System.out.println(htmlString);
+            System.out.println(htmlString);
         }
         
         return htmlString;

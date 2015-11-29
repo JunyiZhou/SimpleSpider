@@ -1,19 +1,17 @@
 package com.spider.request;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.spider.bean.Comment;
-import com.spider.callback.AddRequestListener;
 import com.spider.util.StringUtils;
 
 public class GetCommentRequest extends BaseRequest implements Runnable {
 
 	private String mTopicId;
 
-	public GetCommentRequest(String url, String saveFilePath, String topicId) {
-		super(url, saveFilePath);
+	public GetCommentRequest(String url, String topicId) {
+		super(url);
 		mTopicId = topicId;
 	}
 
@@ -37,7 +35,7 @@ public class GetCommentRequest extends BaseRequest implements Runnable {
 			sqlValues.add(comment.getContent());
 			mDBHelper.setSql(StringUtils.SQL_FOR_INSERT_COMMENT);
 			mDBHelper.setSqlValues(sqlValues);
-			System.out.println(mDBHelper.executeUpdate());
+			mDBHelper.executeUpdate();
 		}
 	}
 

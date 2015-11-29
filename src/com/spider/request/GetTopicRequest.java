@@ -1,12 +1,9 @@
 package com.spider.request;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.spider.bean.Topic;
-import com.spider.callback.AddRequestListener;
-import com.spider.util.Regular;
 import com.spider.util.StringUtils;
 
 public class GetTopicRequest extends BaseRequest implements Runnable {
@@ -14,8 +11,8 @@ public class GetTopicRequest extends BaseRequest implements Runnable {
 	private String mDiscussionId;
 	private String mBaseUrl;
 
-	public GetTopicRequest(String url, String page, String saveFilePath, String discussionId) {
-		super(url + page, saveFilePath);
+	public GetTopicRequest(String url, String page, String discussionId) {
+		super(url + page);
 		mDiscussionId = discussionId;
 		mBaseUrl = url;
 	}
@@ -42,11 +39,10 @@ public class GetTopicRequest extends BaseRequest implements Runnable {
 			sqlValues.add(topic.getCommentNum());
 			mDBHelper.setSql(StringUtils.SQL_FOR_INSERT_TOPIC);
 			mDBHelper.setSqlValues(sqlValues);
-			System.out.println(mDBHelper.executeUpdate());
+			mDBHelper.executeUpdate();
 			
 			if (Integer.valueOf(topic.getCommentNum()) > 0) {
-				GetCommentRequest getCommentRequest = new GetCommentRequest(
-						String.format(StringUtils.URL_COMMENT, topic.getId()), "data//" + StringUtils.filter(topic.getTitle(), StringUtils.REGULAR_EXPRESSION_FOR_FILENAME_FILTER, StringUtils.TARGET_EMPTY) + ".txt", topic.getId());
+				GetCommentRequest getCommentRequest = new GetCommentRequest(String.format(StringUtils.URL_COMMENT, topic.getId()), topic.getId());
 				if (mAddRequestListener != null) {
 					mAddRequestListener.add(getCommentRequest);
 				}
@@ -55,7 +51,7 @@ public class GetTopicRequest extends BaseRequest implements Runnable {
 
 		String nextPage = mRegular.getStringFromHtmlString(htmlString, StringUtils.REGULAR_EXPRESSION_FOR_TOPIC_NEXT);
 		if (!nextPage.isEmpty()) {
-			GetTopicRequest getTopicRequest = new GetTopicRequest(mBaseUrl, nextPage, mSaveFilePath, mDiscussionId);
+			GetTopicRequest getTopicRequest = new GetTopicRequest(mBaseUrl, nextPage, mDiscussionId);
 			if (mAddRequestListener != null) {
 				mAddRequestListener.add(getTopicRequest);
 			}
